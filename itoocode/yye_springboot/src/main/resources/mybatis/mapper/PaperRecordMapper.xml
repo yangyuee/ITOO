@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yye.springboot.dao.PaperRecordDao">
+    <select id="queryLikeExamineeId" resultType="com.yye.springboot.entity.PaperRecordEntity">
+    SELECT * FROM te_paper_record f
+    WHERE
+    f.is_delete=0
+    <if test="examineeId !=''">
+        <bind name="pattern" value="'%' + examineeId + '%'"/>
+        AND
+        f.id LIKE #{pattern}
+    </if>
+    order by
+        f.create_time desc
+</select>
+
+    <select id="selStuDetails" resultType="com.yye.springboot.entity.PaperRecordEntity">
+
+    </select>
+
+    <select id="selectExameeAnswerRight" resultType="com.yye.springboot.entity.PaperRecordEntity">
+
+    </select>
+    <select id="selectPaperRecordId" resultType="com.yye.springboot.entity.PaperRecordEntity">
+
+    </select>
+    <select id="queryPaperRecordId" resultType="java.lang.String">
+
+    </select>
+    <insert id="insertAllPaperRecord">
+
+    </insert>
+
+</mapper>

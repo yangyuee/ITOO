@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!--
+    作者:张晗-十一期
+    版本号:V1.8
+    功能:deleteByIds加入 and is_Delete=0
+    日期:2017年7月22日
+-->
+<mapper namespace="${base-package}.dao.${bean.Uname}Dao">
+    <resultMap id="BaseResultMap" type="${base-package}.entity.${bean.Uname}Entity">
+
+#foreach ($field in ${bean.fields})
+#if(${field.AUcolumnType}=="DATETIME")
+    <result column="${field.column}" property="${field}" jdbcType="TIMESTAMP" />
+
+#elseif(${field.AUcolumnType}=="INT")
+    <result column="${field.column}" property="${field}" jdbcType="INTEGER" />
+
+#elseif(${field.AUcolumnType}=="LONGTEXT")
+    <result column="${field.column}" property="${field}" jdbcType="LONGVARCHAR" />
+
+#elseif(${field.AUcolumnType}=="TEXT")
+    <result column="${field.column}" property="${field}" jdbcType="VARCHAR" />
+
+#else
+    <result column="${field.column}" property="${field}" jdbcType="${field.AUcolumnType}" />    
+
+#end
+#end
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>  
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql> 
+ <sql id="Base_Column_List">
+#foreach ($field in ${bean.fields})
+    ${field.column}#if ($bean.fieldsSize > $velocityCount),
+#end
+#end
+
+ </sql>  
+  <select id="getCountByExample" parameterType="${base-package}.MybatisExample.${bean.Uname}Example"
+            resultType="java.lang.Long">
+        select count(*) from ${bean.table}
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+  </select> 
+   <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ${bean.table}
+        where id = #{id,jdbcType=VARCHAR}  and is_delete = 0
+    </select>  
+    <select id="selectByExample" parameterType="${base-package}.MybatisExample.${bean.Uname}Example" resultMap="BaseResultMap">
+        select
+        <if test="example.distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from ${bean.table}
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="example.orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="example.limit != null">
+            <if test="example.offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="example.offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>   
+    <insert id="insertForce" parameterType="${base-package}.entity.${bean.Uname}Entity">
+    insert into ${bean.table} (             
+#foreach ($field in ${bean.fields})
+                ${field.column}#if ($bean.fieldsSize > $velocityCount),
+#end         
+#end
+)
+    values (
+#foreach ($field in ${bean.fields})
+#if(${field.AUcolumnType}=="DATETIME")
+    #{${field},jdbcType=TIMESTAMP}#if ($bean.fieldsSize > $velocityCount),
+#end
+#elseif(${field.AUcolumnType}=="INT")
+    #{${field},jdbcType=INTEGER}#if ($bean.fieldsSize > $velocityCount),
+#end
+#elseif(${field.AUcolumnType}=="LONGTEXT")
+    #{${field},jdbcType=LONGVARCHAR}#if ($bean.fieldsSize > $velocityCount),
+#end
+#elseif(${field.AUcolumnType}=="TEXT")
+    #{${field},jdbcType=VARCHAR}#if ($bean.fieldsSize > $velocityCount),
+#end     
+#else
+    #{${field},jdbcType=${field.AUcolumnType}}#if ($bean.fieldsSize > $velocityCount),
+#end    
+#end  
+#end
+)
+  </insert>   
+    <insert id="insert" parameterType="${base-package}.entity.${bean.Uname}Entity">
+        insert into ${bean.table}
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+#foreach ($field in ${bean.fields})
+#if(${field.column} == "create_time" || ${field.column} == "update_time" || ${field.column} == "is_delete")
+                ${field.column},
+#else 
+            <if test="${field} != null">
+                ${field.column},
+            </if>           
+#end
+#end
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+#foreach ($field in ${bean.fields})
+#if(${field.column} == "create_time") 
+            <choose>
+                <when test="createTime != null">
+                    #{createTime,jdbcType=TIMESTAMP},
+                </when>
+                <otherwise>
+                    now(),
+                </otherwise>
+            </choose>           
+#elseif(${field.column} == "update_time")
+            <choose>
+                <when test="updateTime != null">
+                    #{updateTime,jdbcType=TIMESTAMP},
+                </when>
+                <otherwise>
+                    now(),
+                </otherwise>
+            </choose>              
+#elseif(${field.column} == "is_delete")
+                0,
+#else              
+            <if test="${field} != null">
+#if(${field.AUcolumnType}=="DATETIME")                            
+                #{${field},jdbcType=TIMESTAMP},
+#elseif(${field.AUcolumnType}=="INT")
+                #{${field},jdbcType=INTEGER},
+#elseif(${field.AUcolumnType}=="LONGTEXT")
+                #{${field},jdbcType=LONGVARCHAR},
+#elseif(${field.AUcolumnType}=="TEXT")
+                #{${field},jdbcType=VARCHAR},                                                
+#else
+                #{${field},jdbcType=${field.AUcolumnType}},
+#end                
+            </if>  
+#end                     
+#end            
+        </trim>
+  </insert>  
+  <insert id="insertAll" parameterType="${base-package}.entity.${bean.Uname}Entity">
+        insert into ${bean.table}
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+#foreach ($field in ${bean.fields})            
+                ${field.column},                    
+#end
+        </trim>        
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+        (
+#foreach ($field in ${bean.fields})            
+#if(${field.AUcolumnType}=="DATETIME")                            
+                #{item.${field},jdbcType=TIMESTAMP}#if ($bean.fieldsSize > $velocityCount),
+#end
+#elseif(${field.AUcolumnType}=="INT")
+                #{item.${field},jdbcType=INTEGER}#if ($bean.fieldsSize > $velocityCount),
+#end
+#elseif(${field.AUcolumnType}=="LONGTEXT")
+                #{item.${field},jdbcType=LONGVARCHAR}#if ($bean.fieldsSize > $velocityCount),
+#end
+#elseif(${field.AUcolumnType}=="TEXT")
+                #{item.${field},jdbcType=VARCHAR}#if ($bean.fieldsSize > $velocityCount),
+#end                                                
+#else
+                #{item.${field},jdbcType=${field.AUcolumnType}}#if ($bean.fieldsSize > $velocityCount),
+#end
+#end                      
+#end    
+        
+        )   
+        </foreach>                
+  </insert> 
+  <delete id="deleteById" parameterType="java.lang.String">
+    update ${bean.table} set is_delete = 1 , update_time=now() , operator = #{operator,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR} and is_delete = 0
+  </delete>
+  <delete id="deleteByIds">
+    update ${bean.table} set is_delete = 1  , update_time=now() , operator = #{operator,jdbcType=VARCHAR}
+    where id in (
+        <foreach collection="list" item="id" separator=",">
+            #{id}
+        </foreach>
+        )  and is_delete = 0
+  </delete>      
+  <delete id="deleteByExample" parameterType="${base-package}.MybatisExample.${bean.Uname}Example">
+        update ${bean.table} set is_delete = 1 , update_time=now() , operator = #{operator,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+  </delete>
+  <update id="updateById" parameterType="${base-package}.entity.${bean.Uname}Entity">
+        update ${bean.table}
+        <set>
+#foreach ($field in ${bean.fields})
+#if(${field} != "id")
+            <if test="${field} != null">
+#if(${field.AUcolumnType}=="DATETIME")                 
+                ${field.column} = #{${field},jdbcType=TIMESTAMP},
+#elseif(${field.AUcolumnType}=="INT")
+                ${field.column} = #{${field},jdbcType=INTEGER},
+#elseif(${field.AUcolumnType}=="LONGTEXT")
+                ${field.column} = #{${field},jdbcType=LONGVARCHAR},
+#elseif(${field.AUcolumnType}=="TEXT")
+                ${field.column} = #{${field},jdbcType=VARCHAR},                                                               
+#else
+                ${field.column} = #{${field},jdbcType=${field.AUcolumnType}},
+#end                
+            </if>
+#end           
+#end           
+        </set>
+        where id = #{id,jdbcType=VARCHAR} and is_delete = 0
+  </update>  
+  <update id="updateForceById" parameterType="${base-package}.entity.${bean.Uname}Entity">
+    update ${bean.table}
+    set 
+#foreach ($field in ${bean.fields})  
+#if(${field} != "id")
+#if(${field.AUcolumnType}=="DATETIME")        
+        ${field.column} = #{${field},jdbcType=TIMESTAMP}#if ($bean.fieldsSize > $velocityCount),
+#end
+#elseif(${field.AUcolumnType}=="INT")        
+        ${field.column} = #{${field},jdbcType=INTEGER}#if ($bean.fieldsSize > $velocityCount),
+#end
+#elseif(${field.AUcolumnType}=="LONGTEXT")        
+        ${field.column} = #{${field},jdbcType=LONGVARCHAR}#if ($bean.fieldsSize > $velocityCount),
+#end
+#elseif(${field.AUcolumnType}=="TEXT")        
+        ${field.column} = #{${field},jdbcType=VARCHAR}#if ($bean.fieldsSize > $velocityCount),
+#end        
+#else
+        ${field.column} = #{${field},jdbcType=${field.AUcolumnType}}#if ($bean.fieldsSize > $velocityCount),
+#end        
+#end            
+#end   
+#end
+        
+        where id = #{id,jdbcType=VARCHAR} and is_delete = 0
+  </update>
+  <update id="updateByExample" parameterType="map">
+        update ${bean.table}
+        <set>
+#foreach ($field in ${bean.fields})
+            <if test="record.${field} != null">
+#if(${field.AUcolumnType}=="DATETIME")                
+                ${field.column} = #{record.${field},jdbcType=TIMESTAMP},
+#elseif(${field.AUcolumnType}=="INT")                
+                ${field.column} = #{record.${field},jdbcType=INTEGER},
+#elseif(${field.AUcolumnType}=="LONGTEXT")                
+                ${field.column} = #{record.${field},jdbcType=LONGVARCHAR},
+#elseif(${field.AUcolumnType}=="TEXT")                
+                ${field.column} = #{record.${field},jdbcType=VARCHAR},                                                
+#else
+                ${field.column} = #{record.${field},jdbcType=${field.AUcolumnType}},
+#end
+            </if>           
+#end                       
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateForceByExample" parameterType="map">
+        update ${bean.table}
+        set 
+#foreach ($field in ${bean.fields})
+#if(${field.AUcolumnType}=="DATETIME")        
+            ${field.column} = #{record.${field},jdbcType=TIMESTAMP}#if ($bean.fieldsSize > $velocityCount),
+#end
+#elseif(${field.AUcolumnType}=="INT")        
+            ${field.column} = #{record.${field},jdbcType=INTEGER}#if ($bean.fieldsSize > $velocityCount),
+#end
+#elseif(${field.AUcolumnType}=="LONGTEXT")        
+            ${field.column} = #{record.${field},jdbcType=LONGVARCHAR}#if ($bean.fieldsSize > $velocityCount),
+#end
+#elseif(${field.AUcolumnType}=="TEXT")        
+            ${field.column} = #{record.${field},jdbcType=VARCHAR}#if ($bean.fieldsSize > $velocityCount),
+#end 
+#else
+            ${field.column} = #{record.${field},jdbcType=${field.AUcolumnType}}#if ($bean.fieldsSize > $velocityCount),
+#end            
+#end  
+#end
+
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>    
+</mapper>

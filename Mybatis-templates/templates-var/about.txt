@@ -1,0 +1,186 @@
+说明：每次对模板进行更新必须在此填写更新记录
+
+
+1.
+version: V1.0
+说   明: 创建文档
+日   期: 2017年6月27日
+更 新人：张晗-十一期
+
+
+2.
+version: V1.1
+说   明: 在${bean.Uname}Example 中头部的包名用变量替换
+日   期: 2017年6月28日
+更 新人：张晗-十一期
+
+
+3.
+version: V1.2
+说   明: 将mapper.xml LONGTEXZT 改为 LONGVARCHAR
+日   期: 2017年6月29日
+更 新人：张晗-十一期
+
+
+4.
+version: V1.4
+说   明: 将各个类添加属性和方法注释,方便阅读,在编译的时候不报warning的提示
+日   期: 2017年7月2日
+更 新人：张晗-十一期
+
+5.
+version: V1.5
+说   明: 将Criterion（条件类）提出来,参照Generali-UI进行改造
+关联类版本:  
+         ${bean.Uname}Example.java      V1.0   
+         ${bean.Uname}Criteria.java     V1.0  
+         ${bean.Uname}Mapper-base.xml   V1.0  
+日   期: 2017年7月4日
+更 新人：张晗-十一期
+
+6.
+version: V1.6
+说   明: 在${base-package}.entity ${bean.Uname}Criteria.java 中做判断加入import java.util.Date;去除${base-package}.entity中的import javax.persistence.Table;
+关联类版本:  
+         ${bean.Uname}Example.java      V1.0   
+         ${bean.Uname}Criteria.java     V1.1  
+         ${bean.Uname}Mapper-base.xml   V1.0  
+日   期: 2017年7月5日
+更 新人：张晗-十一期
+
+7.
+version: V1.7
+说   明: 在${bean.Uname}Criteria.java在in的方法将参数改为传list
+         ${bean.Uname}Mapper-base.xml中增加deletebyids
+关联类版本:  
+         ${bean.Uname}Example.java      V1.0   
+         ${bean.Uname}Criteria.java     V1.2  
+         ${bean.Uname}Mapper-base.xml   V1.1  
+日   期: 2017年7月6日
+更 新人：张晗-十一期
+
+8.
+version: V1.8
+说   明: MybatisExample从api移动到service下
+关联类版本:  
+         ${bean.Uname}Example.java      V1.0   
+         ${bean.Uname}Criteria.java     V1.2  
+         ${bean.Uname}Mapper-base.xml   V1.1  
+日   期: 2017年7月7日
+更 新人：张晗-十一期
+
+9.
+version: V1.9
+说   明: 在${bean.Uname}Mapper-base.xml中的findbyid方法中添加 and is_delete = 0 条件
+关联类版本:  
+         ${bean.Uname}Example.java      V1.0   
+         ${bean.Uname}Criteria.java     V1.2  
+         ${bean.Uname}Mapper-base.xml   V1.2  
+日   期: 2017年7月8日
+更 新人：张晗-十一期
+
+10.
+version: V1.9
+说   明: 在${bean.Uname}Mapper-base.xml中添加 findAll()方法
+关联类版本:  
+         ${bean.Uname}Example.java      V1.0   
+         ${bean.Uname}Criteria.java     V1.2  
+         ${bean.Uname}Mapper-base.xml   V1.3  
+日   期: 2017年7月9日
+更 新人：张晗-十一期
+
+
+11.
+version: V2.0
+说   明: 1.在${bean.Uname}Mapper-base.xml 在deleteById updateById updateForceById 加入and is_delete = 0 条件
+         2.${bean.Uname}Criteria.java string like条件增加了对LONGTEXT和TEXT的判断
+关联类版本:  
+         ${bean.Uname}Example.java      V1.0   
+         ${bean.Uname}Criteria.java     V1.3  
+         ${bean.Uname}Mapper-base.xml   V1.4  
+日   期: 2017年7月10日
+更 新人：张晗-十一期
+
+12.
+version: V2.1
+说   明: 在${bean.Uname}Mapper-base.xml deleteById deleteByIds加入operartor和updatetime赋值 在insert中加入给createtime updatetime赋值         
+关联类版本:  
+         ${bean.Uname}Example.java      V1.0   
+         ${bean.Uname}Criteria.java     V1.3  
+         ${bean.Uname}Mapper-base.xml   V1.5  
+日   期: 2017年7月11日
+更 新人：张晗-十一期
+
+12.
+version: V2.2
+说   明: ${bean.Uname}Mapper-base.xml中deleteByExample中加入operator,在Example_Where_Clause中将collection由oredCriteria变成example.oredCriteriaupdatetime赋值         
+关联类版本:  
+         ${bean.Uname}Example.java      V1.0   
+         ${bean.Uname}Criteria.java     V1.3  
+         ${bean.Uname}Mapper-base.xml   V1.6  
+日   期: 2017年7月16日
+更 新人：张晗-十一期
+
+13.
+version: V2.3
+说   明: ${bean.Uname}Mapper-base.xml中将selectByExample中条件加上example.
+关联类版本:  
+         ${bean.Uname}Example.java      V1.0   
+         ${bean.Uname}Criteria.java     V1.3  
+         ${bean.Uname}Mapper-base.xml   V1.7  
+日   期: 2017年7月16日
+更 新人：张晗-十一期
+
+13.
+version: V2.4
+说   明: test${bean.Uname}Facade extends commonFacade中去除.getCreateTime()
+关联类版本:  
+         ${bean.Uname}Example.java      V1.0   
+         ${bean.Uname}Criteria.java     V1.3  
+         ${bean.Uname}Mapper-base.xml   V1.7  
+日   期: 2017年7月18日
+更 新人：张晗-十一期
+
+14.
+version: V2.5
+说   明: ${bean.Uname}Controller中增加trycatch异常
+关联类版本:  
+         ${bean.Uname}Example.java      V1.0   
+         ${bean.Uname}Criteria.java     V1.3  
+         ${bean.Uname}Mapper-base.xml   V1.7  
+日   期: 2017年7月18日
+更 新人：张晗-十一期
+
+15.
+version: V2.6
+说   明: ${bean.Uname}Mapper-base.xml中的deleteByIds加入 and is_Delete=0
+关联类版本:  
+         ${bean.Uname}Example.java      V1.0   
+         ${bean.Uname}Criteria.java     V1.3  
+         ${bean.Uname}Mapper-base.xml   V1.8  
+日   期: 2017年7月22日
+更 新人：张晗-十一期
+
+16.
+version: V2.7
+说   明: commonFacade中将classpath:spring/spring-context.xml改为classpath:spring-context.xml
+关联类版本:  
+         ${bean.Uname}Example.java      V1.0   
+         ${bean.Uname}Criteria.java     V1.3  
+         ${bean.Uname}Mapper-base.xml   V1.8  
+日   期: 2017年7月23日
+更 新人：张晗-十一期
+
+17.
+version: V2.8
+说   明: service实现类上的@Transactional去掉原因:咱们改成在方法上加事物
+关联类版本:  
+         ${bean.Uname}Example.java      V1.0   
+         ${bean.Uname}Criteria.java     V1.3  
+         ${bean.Uname}Mapper-base.xml   V1.8  
+日   期: 2017年7月25日
+更 新人：张晗-十一期
+
+
+
+
